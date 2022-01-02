@@ -37,9 +37,9 @@
     <circle *ngFor="let m of services" [attr.fill]="m.getColor()" [attr.cx]="m.x" [attr.cy]="m.y" r="40"
       (mousedown)="select(m)" (mouseup)="mouseUp(m)">
     </circle>
-    <line class="line" *ngFor="let link of links" [attr.x1]="link.x0" [attr.y1]="link.y0" [attr.x2]="link.m0" [attr.y2]="link.m1" >
+    <line class="line"  *ngFor="let link of links" [attr.x1]="link.x0" [attr.y1]="link.y0" [attr.x2]="link.m0" [attr.y2]="link.m1" (mousedown)="select(link)" >
     </line>
-    <line class="line" *ngFor="let link of links" [attr.x1]="link.m0" [attr.y1]="link.m1" [attr.x2]="link.x1" [attr.y2]="link.y1" marker-start="url(#lol)" >
+    <line class="line" *ngFor="let link of links" [attr.x1]="link.m0" [attr.y1]="link.m1" [attr.x2]="link.x1" [attr.y2]="link.y1" marker-start="url(#lol)"  (mousedown)="select(link)" >
     </line>
   </svg>
 

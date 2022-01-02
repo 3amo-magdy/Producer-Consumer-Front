@@ -76,35 +76,43 @@ export class AppComponent {
     let arr;
     switch(this.MODE){
       case mode.selectingM:
-        this.service.removeM(<M>v).subscribe((data:any)=>{
-          console.log(data);
-          arr=this.services;
-          this.removefromarr(arr,v);
-        });
+        arr=this.services;
+        this.removefromarr(arr,v);
+        // this.service.removeM(<M>v).subscribe((data:any)=>{
+        //   console.log(data);
+        //   arr=this.services;
+        //   this.removefromarr(arr,v);
+        // });
         break;
         
       case mode.selectingQ:
-        this.service.removeQ(<Q>v).subscribe((data:any)=>{
-          console.log(data);
-          arr=this.queues
-          this.removefromarr(arr,v);
-        });
+        arr=this.queues
+        this.removefromarr(arr,v);
+        // this.service.removeQ(<Q>v).subscribe((data:any)=>{
+        //   console.log(data);
+        //   arr=this.queues
+        //   this.removefromarr(arr,v);
+        // });
         break;
       
       case mode.selectingLink:
         if((<link>this.selected).from instanceof Q &&(<link>this.selected).to instanceof M ){
-          this.service.delinkQ_M(<Q>(<link>this.selected).from,<M>(<link>this.selected).to).subscribe((data:any)=>{
-            console.log(data);
-            arr=this.links;
-            this.removefromarr(arr,v);
-          })
+          arr=this.links;
+          this.removefromarr(arr,v);
+          // this.service.delinkQ_M(<Q>(<link>this.selected).from,<M>(<link>this.selected).to).subscribe((data:any)=>{
+          //   console.log(data);
+          //   arr=this.links;
+          //   this.removefromarr(arr,v);
+          // })
         }
         else{
-          this.service.delinkM_Q(<M>(<link>this.selected).from).subscribe((data:any)=>{
-            console.log(data);
-            arr=this.links;
-            this.removefromarr(arr,v);
-          })
+          arr=this.links;
+          this.removefromarr(arr,v);
+          // this.service.delinkM_Q(<M>(<link>this.selected).from).subscribe((data:any)=>{
+          //   console.log(data);
+          //   arr=this.links;
+          //   this.removefromarr(arr,v);
+          // })
         }
         break;
 
@@ -121,16 +129,16 @@ export class AppComponent {
     }
   }
   resetSelection(e:MouseEvent){
-    if(this.MODE==mode.selectingQ||this.MODE==mode.selectingM){
-      console.log("resetted selection")
-      this.MODE=mode.linking;
-    }
-    else if(this.MODE==mode.creatingM){
-      console.log("creating mode")
+    // if(this.MODE==mode.selectingQ||this.MODE==mode.selectingM){
+    //   console.log("resetted selection")
+    //   this.MODE=mode.linking;
+    // }
+    if(this.MODE==mode.creatingM){
+      console.log("just created a machine")
       this.addM(e);
     }
     else if(this.MODE==mode.creatingQ){
-      console.log("creating mode")
+      console.log("just created a queue")
       this.addQ(e);
     }
   }

@@ -3,7 +3,7 @@
 }
 .line{
     z-index: 100;
-    stroke: rgb(255, 225, 0);
+    stroke: rgb(255, 0, 0);
     stroke-width: 4px;
     stroke-linecap: round;
     stroke-linejoin: round;
