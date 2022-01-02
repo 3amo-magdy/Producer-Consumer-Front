@@ -1,0 +1,12 @@
+.canvas{
+    background-color: rgb(228, 228, 228);
+}
+.line{
+    z-index: 100;
+    stroke: rgb(255, 225, 0);
+    stroke-width: 4px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    border: 2px solid black;
+    /* marker-end: url("arrowhead.html"); */
+}
