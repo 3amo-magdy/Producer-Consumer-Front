@@ -202,6 +202,12 @@ export class AppComponent {
     if(e.key==='Delete'||e.key==="D"||e.key==="d"){
       this.delete(this.selected);
     } 
+    if(e.key==='m'||e.key==="M"){
+      this.MODE=mode.creatingM;
+    } 
+    if(e.key==='q'||e.key==="Q"){
+      this.MODE=mode.creatingQ;
+    } 
     // if(e.key==="Q"||e.key==="q"){
     //   this.addQ();
     // } 
