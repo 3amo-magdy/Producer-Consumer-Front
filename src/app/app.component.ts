@@ -29,9 +29,10 @@ export class AppComponent {
   services!:M[];
   links!:link[];
   service:ControllerService;
-  
+  win:Window;
   constructor(s:ControllerService){
-    this.service=s;   
+    this.service=s; 
+    this.win=window;
   }
 
   ngOnInit() {
@@ -40,22 +41,39 @@ export class AppComponent {
     this.services=[];
     this.links=[];
     this.MODE=mode.linking;
+
   }
   ngAfterViewInit(){
     document.addEventListener('keydown',this.KeyDown.bind(this),false);
     
     this.webSocketAPI._connect();
     this.canvas = (this.Ecanvas.nativeElement as SVGElement);
+
+    // this.win.w=window.innerWidth;
+    // this.win.h=window.innerHeight;
+    // this.win.w=this.win.w-this.getOffset().left-12
+    // this.win.h=this.win.h-this.getOffset().top-12
+    // this.canvas.setAttribute("width",(this.win.w-this.getOffset().left-12).toString())
+    // this.canvas.setAttribute("height",(this.win.h-this.getOffset().top-12).toString())
     // let offx=this.canvas.getBoundingClientRect().x;
     // let offy=this.canvas.getBoundingClientRect().y;
 
   }
   getOffset(){
-    var bound =this.canvas.getBoundingClientRect();
-    var html =document.documentElement;
-    return{
-      top:bound.top+window.pageYOffset-html.clientTop,
-      left:bound.left+window.pageXOffset-html.clientLeft
+    if(this.canvas){
+      var bound =this.canvas.getBoundingClientRect();
+      var html =document.documentElement;
+      return{
+        top:bound.top+window.pageYOffset-html.clientTop,
+        left:bound.left+window.pageXOffset-html.clientLeft
+      }
+    }
+    else{
+      return{
+        top:20,
+        left:20
+      }
+      
     }
   }
   select(v:IViewable){

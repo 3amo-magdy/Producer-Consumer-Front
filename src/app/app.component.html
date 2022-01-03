@@ -14,7 +14,7 @@
     <button id="M" (click)="setM()">M</button>
     <button id="delete" (click)="delete(selected)">Del</button>
   <div>
-  <svg #canvas class="canvas" width="500" height="300" (click)="resetSelection($event)" >
+  <svg #canvas class="canvas" [attr.width]="win.innerWidth-getOffset().left-16" [attr.height]="win.innerHeight-getOffset().top-16" (click)="resetSelection($event)" >
     <!-- <defs>
       <marker>[attr.markerWidth]="8" [attr.markerHeight]="4" [attr.refX]="0" [attr.refY]="2" [attr.orient]="auto"
         id="arrowhead"

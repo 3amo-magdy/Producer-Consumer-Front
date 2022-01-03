@@ -13,10 +13,10 @@ export class M extends IViewable{
     }
     getColor():string{
         if(this.free){
-            return "green";
+            return "rgb(184, 184, 184)";
         }
         else{
-            return "red";
+            return "rgb(165, 34, 34)";
         }
     }
 }
