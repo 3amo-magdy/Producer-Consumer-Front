@@ -95,6 +95,7 @@ export class AppComponent {
     switch(this.MODE){
       case mode.selectingM:
         arr=this.services;
+        this.deleteAllLinks(v);
         this.removefromarr(arr,v);
         // this.service.removeM(<M>v).subscribe((data:any)=>{
         //   console.log(data);
@@ -105,6 +106,7 @@ export class AppComponent {
         
       case mode.selectingQ:
         arr=this.queues
+        this.deleteAllLinks(v);
         this.removefromarr(arr,v);
         // this.service.removeQ(<Q>v).subscribe((data:any)=>{
         //   console.log(data);
@@ -246,5 +248,16 @@ addQ(ev:MouseEvent){
       }
     }
     throw new Error("couldn't find the id :"+id);
+  }
+
+  deleteAllLinks(v:IViewable){
+    for (let index = 0; index < this.links.length; index++) {
+      let l = this.links[index];
+      if (l.from==v||l.to==v){
+        console.log("yes");
+        this.links.splice(index,1);
+        index--;
+      }
+    }
   }
 }
