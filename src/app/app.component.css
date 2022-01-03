@@ -2,25 +2,36 @@
     background-color: rgb(228, 228, 228);
 }
 .line{
-    z-index: -1;
+    z-index: -2;
     stroke: rgb(255, 0, 0);
-    stroke-width: 4px;
+    stroke-dashoffset: 0.1px;
+    stroke-width: 2px;
     stroke-linecap: round;
     stroke-linejoin: round;
     border: 2px solid black;
     /* marker-end: url("arrowhead.html"); */
 }
+.arrow{
+    z-index: -1;
+    fill: rgb(255, 0, 0);
+
+}
 .q{
     fill:rgb(3, 56, 85);
-    stroke-width: 2px;
+    stroke-width: 1px;
     stroke: rgb(0, 0, 0);
+    cursor: crosshair;
+
 }
 .qtext{
     fill:rgba(255, 255, 255, 0.624);
     font-family: 'Segoe UI';
+    cursor: crosshair;
 }
 .m{
     /* don't use the fill attribute*/
     stroke-width: 1px;
     stroke: rgb(0, 0, 0);
+    cursor: crosshair;
+
 }
