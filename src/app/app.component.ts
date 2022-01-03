@@ -207,10 +207,7 @@ export class AppComponent {
     } 
     if(e.key==='q'||e.key==="Q"){
       this.MODE=mode.creatingQ;
-    } 
-    // if(e.key==="Q"||e.key==="q"){
-    //   this.addQ();
-    // } 
+    }  
 }
 
 addQ(ev:MouseEvent){
