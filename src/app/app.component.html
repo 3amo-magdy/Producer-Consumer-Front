@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head >
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>simulation</title>
-</head>
-
-<body>
+  
+  <head >
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>simulation</title>
+  </head>
+  
+  <body>
+  <div>
+    <button id="Q" (click)="setQ()">Q</button>
+    <button id="M" (click)="setM()">M</button>
+    <button id="delete" (click)="delete(selected)">Del</button>
+  <div>
   <svg #canvas class="canvas" width="500" height="300" (click)="resetSelection($event)" >
     <!-- <defs>
       <marker>[attr.markerWidth]="8" [attr.markerHeight]="4" [attr.refX]="0" [attr.refY]="2" [attr.orient]="auto"
@@ -21,32 +26,30 @@
       <marker #lol id="lol"  refX="0" refY="2.5" markerWidth="3"markerHeight="5" orient="auto" style="z-index: 102;">
         <polygon points="0 0,3 2.5,0 5" style="fill:rgb(255, 0, 0);">  
         </polygon>
-        <!-- <polygon points="0 0,-2 1,0 1" style="fill:rgb(255, 0, 0);">  
-        </polygon> -->
+
       </marker>
 
     </defs>
-
-    <rect *ngFor="let q of queues" width="70" height="50" style="fill:rgb(3, 56, 85);stroke-width: 3px;stroke: rgb(0, 0, 0);"
-      (mousedown)="select(q)" (mouseup)="mouseUp(q)" [attr.x]="q.x-35" [attr.y]="q.y-25">
-    </rect>
-    <!-- <text fill="black" font-size="18"
-    font-family="Vardana">
-      {{q.qnumber}}
-    </text> -->
-    <circle *ngFor="let m of services" [attr.fill]="m.getColor()" [attr.cx]="m.x" [attr.cy]="m.y" r="40"
-      (mousedown)="select(m)" (mouseup)="mouseUp(m)">
-    </circle>
     <line class="line"  *ngFor="let link of links" [attr.x1]="link.x0" [attr.y1]="link.y0" [attr.x2]="link.m0" [attr.y2]="link.m1" (mousedown)="select(link)" >
     </line>
     <line class="line" *ngFor="let link of links" [attr.x1]="link.m0" [attr.y1]="link.m1" [attr.x2]="link.x1" [attr.y2]="link.y1" marker-start="url(#lol)"  (mousedown)="select(link)" >
     </line>
+
+    <rect class="q" *ngFor="let q of queues" width="70" height="30" style=""
+      (mousedown)="select(q)" (mouseup)="mouseUp(q)" [attr.x]="q.x-35" [attr.y]="q.y-15">
+    </rect>
+
+    <text class="qtext" *ngFor="let q of queues" [attr.x]="q.x-3*(q.qnumber.toString().length)" [attr.y]="q.y+5" fill="black" font-size="12"
+    >
+    {{q.qnumber}}
+    </text>
+    
+    <circle class ="m" *ngFor="let m of services" [attr.fill]="m.getColor()" [attr.cx]="m.x" [attr.cy]="m.y" r="20"
+      (mousedown)="select(m)" (mouseup)="mouseUp(m)">
+    </circle>
   </svg>
 
-  <div>
-    <button id="Q" (click)="setQ()">Q</button>
-    <button id="M" (click)="setM()">M</button>
-    <div>
+
 
 
     </div>

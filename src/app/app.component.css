@@ -2,11 +2,25 @@
     background-color: rgb(228, 228, 228);
 }
 .line{
-    z-index: 100;
+    z-index: -1;
     stroke: rgb(255, 0, 0);
     stroke-width: 4px;
     stroke-linecap: round;
     stroke-linejoin: round;
     border: 2px solid black;
     /* marker-end: url("arrowhead.html"); */
+}
+.q{
+    fill:rgb(3, 56, 85);
+    stroke-width: 2px;
+    stroke: rgb(0, 0, 0);
+}
+.qtext{
+    fill:rgba(255, 255, 255, 0.624);
+    font-family: 'Segoe UI';
+}
+.m{
+    /* don't use the fill attribute*/
+    stroke-width: 1px;
+    stroke: rgb(0, 0, 0);
 }
