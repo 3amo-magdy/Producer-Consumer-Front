@@ -65,7 +65,7 @@ export class ControllerService {
   }
   public linkM_Q(q:M,m:Q){
     //    @GetMapping("/linkQM/{idq}/{idm}")
-    return this.http.get(this.url+"linkQM/"+m.id+"/"+q.id);
+    return this.http.get(this.url+"linkMQ/"+m.id+"/"+q.id);
   }
 
 

@@ -266,7 +266,9 @@ addQ(ev:MouseEvent){
     }
   }
   changeRate(txt:string){
-    this.service.setinput(+txt);
+    this.service.setinput(+txt).subscribe(data=>{
+      console.log(data);    
+    });
   }
   start(){
     this.service.start().subscribe(data=>{
