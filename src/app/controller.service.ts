@@ -38,6 +38,9 @@ export class ControllerService {
   public setinput(rate:number):Observable<Object>{
     return this.http.get(this.url+"input"+"/"+rate);
   }
+  public inputProducts(amount:number,q:Q):Observable<Object>{
+    return this.http.get(this.url+"input"+"/"+q.id+"/"+amount);
+  }
   public addQ():Observable<Object>{
     return this.http.get(this.url+"addQ");
   }

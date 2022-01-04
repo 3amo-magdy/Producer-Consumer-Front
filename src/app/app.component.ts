@@ -285,6 +285,13 @@ addQ(ev:MouseEvent){
       console.log(data);    
     });
   }
+  inputProducts(e:any){
+    if(this.selected instanceof Q){
+      this.service.inputProducts(e.target.value,this.selected).subscribe(data=>{
+        console.log(data);    
+      });
+    }
+  }
   start(){
     this.service.start().subscribe(data=>{
       console.log(data);    

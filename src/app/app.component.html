@@ -15,6 +15,7 @@
     <button id="delete" (click)="delete(selected)"> Del </button>
     <input type="text"  (keyup.enter)="changeRate($event)">
     <button id="start" (click)="start()">Start</button>
+    <input type="text"  (keyup.enter)="inputProducts($event)">
     <div>
   <svg #canvas class="canvas" [attr.width]="win.innerWidth-getOffset().left-16" [attr.height]="win.innerHeight-getOffset().top-16" (click)="resetSelection($event)" >
     <!-- <defs>
