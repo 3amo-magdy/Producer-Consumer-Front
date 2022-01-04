@@ -13,7 +13,6 @@ export class WebSocketAPI {
         this.appComponent = appComponent;
     }
     _connect() {
-        console.log("Initialize WebSocket Connection");
         let ws = new SockJS(this.webSocketEndPoint);
         this.stompClient = Stomp.over(ws);
         const _this = this;
@@ -23,7 +22,7 @@ export class WebSocketAPI {
                 _this.onMessageReceived(sdkEvent);
             });
             //_this.stompClient.reconnect_delay = 2000;
-        }, this.errorCallBack);
+        }, this.errorCallBack.bind(this));
     };
 
     _disconnect() {
@@ -35,10 +34,11 @@ export class WebSocketAPI {
 
     // on error, schedule a reconnection attempt
     errorCallBack(error:Error) {
-        console.log("errorCallBack -> " + error)
-        setTimeout((() => {
+
+        console.log("trying again in 7 seconds ... ")
+        setTimeout(() => {
             this._connect();
-        }).bind(this), 5000);
+        },7000)
     }
 
     _send(message:string) {

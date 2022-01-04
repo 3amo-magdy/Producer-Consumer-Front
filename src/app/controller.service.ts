@@ -64,10 +64,7 @@ export class ControllerService {
     return this.http.delete(this.url+"delink/"+m.id);
   }
   public linkM_Q(q:M,m:Q){
-    
     //    @GetMapping("/linkQM/{idq}/{idm}")
     return this.http.get(this.url+"linkMQ/"+q.id+"/"+m.id);
   }
-
-
 }

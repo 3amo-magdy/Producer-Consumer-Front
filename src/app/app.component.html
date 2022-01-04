@@ -13,7 +13,7 @@
     <button id="Q" (click)="setQ()">Q</button>
     <button id="M" (click)="setM()">M</button>
     <button id="delete" (click)="delete(selected)"> Del </button>
-    <input type="text" value="{{txt}}" (keypress)="changeRate(txt)">
+    <input type="text"  (keyup.enter)="changeRate($event)">
     <button id="start" (click)="start()">Start</button>
     <div>
   <svg #canvas class="canvas" [attr.width]="win.innerWidth-getOffset().left-16" [attr.height]="win.innerHeight-getOffset().top-16" (click)="resetSelection($event)" >
@@ -38,7 +38,7 @@
     </line>
 
     <rect class="q" *ngFor="let q of queues" width="70" height="30"
-      (mousedown)="select(q)" (mouseup)="mouseUp(q)"(mousedown)="keyQ($event,q)" [attr.x]="q.x-35" [attr.y]="q.y-15">
+      (mousedown)="select(q)" (mouseup)="mouseUp(q)"(mousedown)="keyQ($event,q)" [attr.x]="q.x-35" [attr.y]="q.y-15" [attr.fill]="q.color">
     </rect>
 
     <text class="qtext" *ngFor="let q of queues" [attr.x]="q.x-3*(q.qnumber.toString().length)" [attr.y]="q.y+5" fill="black" font-size="12" 

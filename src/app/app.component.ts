@@ -31,6 +31,7 @@ export class AppComponent {
   service:ControllerService;
   win:Window;
   txt="";
+  selectedQ!:Q;
   constructor(s:ControllerService){
     this.service=s; 
     this.win=window;
@@ -209,7 +210,13 @@ export class AppComponent {
   keyQ(e:MouseEvent,q:Q){
     if(e.shiftKey){
       this.service.setq0(q.id).subscribe(data=>{
+        if(this.selectedQ){
+          this.selectedQ.color="#84b3bb"
+        }
         console.log(data);
+        this.selectedQ=q;
+        // q.color="#A0b199";
+        q.color="deepskyblue";
       });
     }
   }
@@ -265,8 +272,9 @@ addQ(ev:MouseEvent){
       }
     }
   }
-  changeRate(txt:string){
-    this.service.setinput(+txt).subscribe(data=>{
+  changeRate(e:any){
+    if(!this.selectedQ){window.alert("Pick a starting queue first by holding shift while clicking on a queue");return;}
+    this.service.setinput(e.target.value).subscribe(data=>{
       console.log(data);    
     });
   }
