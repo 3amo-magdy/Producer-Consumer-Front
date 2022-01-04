@@ -18,10 +18,10 @@ export class WebSocketAPI {
         const _this = this;
         _this.stompClient.connect({}, function (frame:any) {
             console.log("connected to : "+frame);
-            _this.stompClient.subscribe(_this.topic, function (sdkEvent:any) {
-                _this.onMessageReceived(sdkEvent);
-            });
-            //_this.stompClient.reconnect_delay = 2000;
+            _this.stompClient.subscribe(_this.topic, (up: any) => {
+                    console.log(up);
+                    _this.onMessageReceived(up.body);
+                });
         }, this.errorCallBack.bind(this));
     };
 
@@ -46,7 +46,7 @@ export class WebSocketAPI {
         this.stompClient.send("/app/hello", {}, JSON.stringify(message));
     }
 
-    onMessageReceived(update:update) {
+    onMessageReceived(update:any) {
         console.log("Message Recieved from Server :: " + update);
         this.appComponent.handleMessage(update);
     }

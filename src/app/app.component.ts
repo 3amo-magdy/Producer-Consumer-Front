@@ -38,7 +38,7 @@ export class AppComponent {
   }
 
   ngOnInit() {
-    this.webSocketAPI = new WebSocketAPI(new AppComponent(this.service));
+    this.webSocketAPI = new WebSocketAPI(this);
     this.queues=[];
     this.services=[];
     this.links=[];
@@ -247,9 +247,16 @@ addQ(ev:MouseEvent){
     this.webSocketAPI._send(this.name);
   }
 
-  handleMessage(up:update){
+  handleMessage(u:string){
+ 
+    console.log((u as string).replace("\n",""));
+  
+    var up=JSON.parse((u as string).replace("\n",""));
     let q=this.getV(this.queues,up.idQ);
     q.update(up.qnumber);
+    if(up.idM==="input"){
+      return;
+    }
     let m=this.getV(this.services,up.idM);
     m.update(up.mfree);
   }
