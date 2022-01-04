@@ -36,15 +36,11 @@ export class WebSocketAPI {
     // on error, schedule a reconnection attempt
     errorCallBack(error:Error) {
         console.log("errorCallBack -> " + error)
-        // setTimeout(() => {
-        //     this._connect();
-        // }, 5000);
+        setTimeout((() => {
+            this._connect();
+        }).bind(this), 5000);
     }
 
- /**
-  * Send message to sever via web socket
-  * @param {*} message 
-  */
     _send(message:string) {
         console.log("calling logout api via web socket");
         this.stompClient.send("/app/hello", {}, JSON.stringify(message));
