@@ -1,3 +1,4 @@
+import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 import * as SockJS from 'sockjs-client';
 import * as Stomp from 'stompjs';
 import { AppComponent } from '../app.component';
@@ -54,5 +55,3 @@ export class WebSocketAPI {
         this.appComponent.handleMessage(update);
     }
 }
-
-// 
