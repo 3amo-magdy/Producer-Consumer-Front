@@ -17,6 +17,30 @@ export class ControllerService {
   }; 
   constructor(private http: HttpClient) { }  
 
+  public start():Observable<Object>{
+    return this.http.get(this.url+"start");
+  }
+  public stop():Observable<Object>{
+    return this.http.get(this.url+"stop");
+  }
+  public pause():Observable<Object>{
+    return this.http.get(this.url+"pause");
+  }
+  public resume():Observable<Object>{
+    return this.http.get(this.url+"resume");
+  }
+  public replay():Observable<Object>{
+    return this.http.get(this.url+"replay");
+  }
+  public setq0(idq:string):Observable<Object>{
+    return this.http.get(this.url+"input"+"/"+idq+"/q0");
+  }
+  public setinput(rate:number):Observable<Object>{
+    return this.http.get(this.url+"input"+"/"+rate);
+  }
+  public inputProducts(amount:number,q:Q):Observable<Object>{
+    return this.http.get(this.url+"input"+"/"+q.id+"/"+amount);
+  }
   public addQ():Observable<Object>{
     return this.http.get(this.url+"addQ");
   }
@@ -44,8 +68,6 @@ export class ControllerService {
   }
   public linkM_Q(q:M,m:Q){
     //    @GetMapping("/linkQM/{idq}/{idm}")
-    return this.http.get(this.url+"linkQM/"+q.id+"/"+m.id);
+    return this.http.get(this.url+"linkMQ/"+q.id+"/"+m.id);
   }
-
-
 }

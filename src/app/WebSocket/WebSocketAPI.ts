@@ -13,17 +13,16 @@ export class WebSocketAPI {
         this.appComponent = appComponent;
     }
     _connect() {
-        console.log("Initialize WebSocket Connection");
         let ws = new SockJS(this.webSocketEndPoint);
         this.stompClient = Stomp.over(ws);
         const _this = this;
         _this.stompClient.connect({}, function (frame:any) {
             console.log("connected to : "+frame);
-            _this.stompClient.subscribe(_this.topic, function (sdkEvent:any) {
-                _this.onMessageReceived(sdkEvent);
-            });
-            //_this.stompClient.reconnect_delay = 2000;
-        }, this.errorCallBack);
+            _this.stompClient.subscribe(_this.topic, (up: any) => {
+                    console.log(up);
+                    _this.onMessageReceived(up.body);
+                });
+        }, this.errorCallBack.bind(this));
     };
 
     _disconnect() {
@@ -35,22 +34,19 @@ export class WebSocketAPI {
 
     // on error, schedule a reconnection attempt
     errorCallBack(error:Error) {
-        console.log("errorCallBack -> " + error)
-        // setTimeout(() => {
-        //     this._connect();
-        // }, 5000);
+
+        console.log("trying again in 7 seconds ... ")
+        setTimeout(() => {
+            this._connect();
+        },7000)
     }
 
- /**
-  * Send message to sever via web socket
-  * @param {*} message 
-  */
     _send(message:string) {
         console.log("calling logout api via web socket");
         this.stompClient.send("/app/hello", {}, JSON.stringify(message));
     }
 
-    onMessageReceived(update:update) {
+    onMessageReceived(update:any) {
         console.log("Message Recieved from Server :: " + update);
         this.appComponent.handleMessage(update);
     }

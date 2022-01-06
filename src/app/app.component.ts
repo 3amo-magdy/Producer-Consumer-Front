@@ -30,13 +30,15 @@ export class AppComponent {
   links!:link[];
   service:ControllerService;
   win:Window;
+  txt="";
+  selectedQ!:Q;
   constructor(s:ControllerService){
     this.service=s; 
     this.win=window;
   }
 
   ngOnInit() {
-    this.webSocketAPI = new WebSocketAPI(new AppComponent(this.service));
+    this.webSocketAPI = new WebSocketAPI(this);
     this.queues=[];
     this.services=[];
     this.links=[];
@@ -94,45 +96,37 @@ export class AppComponent {
     let arr;
     switch(this.MODE){
       case mode.selectingM:
-        arr=this.services;
-        this.deleteAllLinks(v);
-        this.removefromarr(arr,v);
-        // this.service.removeM(<M>v).subscribe((data:any)=>{
-        //   console.log(data);
-        //   arr=this.services;
-        //   this.removefromarr(arr,v);
-        // });
+        this.service.removeM(<M>v).subscribe((data:any)=>{
+          console.log(data);
+          arr=this.services;
+          this.removefromarr(arr,v);
+          this.deleteAllLinks(v);
+        });
         break;
         
       case mode.selectingQ:
-        arr=this.queues
-        this.deleteAllLinks(v);
-        this.removefromarr(arr,v);
-        // this.service.removeQ(<Q>v).subscribe((data:any)=>{
-        //   console.log(data);
-        //   arr=this.queues
-        //   this.removefromarr(arr,v);
-        // });
+        this.service.removeQ(<Q>v).subscribe((data:any)=>{
+          console.log(data);
+          arr=this.queues
+          this.removefromarr(arr,v);
+          this.deleteAllLinks(v);
+        });
         break;
       
       case mode.selectingLink:
         if((<link>this.selected).from instanceof Q &&(<link>this.selected).to instanceof M ){
-          arr=this.links;
-          this.removefromarr(arr,v);
-          // this.service.delinkQ_M(<Q>(<link>this.selected).from,<M>(<link>this.selected).to).subscribe((data:any)=>{
-          //   console.log(data);
-          //   arr=this.links;
-          //   this.removefromarr(arr,v);
-          // })
+          this.service.delinkQ_M(<Q>(<link>this.selected).from,<M>(<link>this.selected).to).subscribe((data:any)=>{
+            console.log(data);
+            arr=this.links;
+            this.removefromarr(arr,v);
+          })
         }
-        else{
-          arr=this.links;
-          this.removefromarr(arr,v);
-          // this.service.delinkM_Q(<M>(<link>this.selected).from).subscribe((data:any)=>{
-          //   console.log(data);
-          //   arr=this.links;
-          //   this.removefromarr(arr,v);
-          // })
+        else if((<link>this.selected).from instanceof M &&(<link>this.selected).to instanceof Q ){
+          this.service.delinkM_Q(<M>(<link>this.selected).from).subscribe((data:any)=>{
+            console.log(data);
+            arr=this.links;
+            this.removefromarr(arr,v);
+          })
         }
         break;
 
@@ -174,24 +168,28 @@ export class AppComponent {
     console.log("links:");
     console.log(this.links);
     if(this.MODE==mode.selectingM&&v instanceof Q){
-      this.links.push(new link(this.selected,v));
-      // this.service.linkM_Q(<M>this.selected,v).subscribe(data=>{
-      //   console.log(data);
-      //   if(<string>data==="F"){
-      //     window.alert("The Service Already Got a Consumer");
-      //     return;
-      //   }
-      //   else if(<string>data==="S"){
-      //   this.links.push(new link(this.selected,v));
-      //   }
-      // })
+      this.service.linkM_Q(<M>this.selected,v).subscribe(data=>{
+        console.log(data);
+        if(<string>data==="F"){
+          window.alert("The Service Already Got a Consumer");
+          return;
+        }
+        else if(<string>data==="S"){
+        this.links.push(new link(this.selected,v));
+        }
+      })
       
     }else if(this.MODE==mode.selectingQ && v instanceof M){
-      this.links.push(new link(this.selected,v));
-      // this.service.linkQ_M(<Q>this.selected,v).subscribe(data=>{
-      //   console.log(data);
-      //   this.links.push(new link(this.selected,v));
-      // })
+      this.service.linkQ_M(<Q>this.selected,v).subscribe(data=>{
+        console.log(data);
+        if(<string>data==="F"){
+          window.alert("The same queue can't provide and consume the same machine");
+          return;
+        }
+        else if(<string>data==="S"){
+        this.links.push(new link(this.selected,v));
+        }
+      })
     }
     else{
       //do nothing 
@@ -207,24 +205,35 @@ export class AppComponent {
     } 
     if(e.key==='q'||e.key==="Q"){
       this.MODE=mode.creatingQ;
-    }  
-}
+    }
+  }
+  keyQ(e:MouseEvent,q:Q){
+    if(e.shiftKey){
+      this.service.setq0(q.id).subscribe(data=>{
+        if(this.selectedQ){
+          this.selectedQ.color="#84b3bb"
+        }
+        console.log(data);
+        this.selectedQ=q;
+        // q.color="#A0b199";
+        q.color="deepskyblue";
+      });
+    }
+  }
 
 addQ(ev:MouseEvent){
-    let q=new Q("0",ev.clientX-this.getOffset().left,ev.clientY-this.getOffset().top);
+  this.service.addQ().subscribe((data:any)=>{
+    console.log(data);
+    let q=new Q(data.id,ev.clientX-this.getOffset().left,ev.clientY-this.getOffset().top);
     this.queues.push(q);
-    // this.service.addQ().subscribe((data:any)=>{
-    //   console.log(data);
-    //   var q:Q;
-    // })
+    })
   }
   addM(ev:MouseEvent){
-    let m=new M("1",ev.clientX-this.getOffset().left,ev.clientY-this.getOffset().top,100);
-    this.services.push(m);
-    // this.service.addM().subscribe((data:any)=>{
-    //   console.log(data);
-    //   var m:M;
-    // })
+    this.service.addM().subscribe((data:any)=>{
+      console.log(data);
+      var m=new M(data.id,ev.clientX-this.getOffset().left,ev.clientY-this.getOffset().top,100);
+      this.services.push(m);
+    })
   }
   connect(){
     this.webSocketAPI._connect();
@@ -238,9 +247,16 @@ addQ(ev:MouseEvent){
     this.webSocketAPI._send(this.name);
   }
 
-  handleMessage(up:update){
+  handleMessage(u:string){
+ 
+    console.log((u as string).replace("\n",""));
+  
+    var up=JSON.parse((u as string).replace("\n",""));
     let q=this.getV(this.queues,up.idQ);
     q.update(up.qnumber);
+    if(up.idM==="input"){
+      return;
+    }
     let m=this.getV(this.services,up.idM);
     m.update(up.mfree);
   }
@@ -262,5 +278,38 @@ addQ(ev:MouseEvent){
         index--;
       }
     }
+  }
+  changeRate(e:any){
+    if(!this.selectedQ){window.alert("Pick a starting queue first by holding shift while clicking on a queue");return;}
+    this.service.setinput(e.target.value).subscribe(data=>{
+      console.log(data);    
+    });
+  }
+  inputProducts(e:any){
+    if(this.selected instanceof Q){
+      this.service.inputProducts(e.target.value,this.selected).subscribe(data=>{
+        console.log(data);    
+      });
+    }
+  }
+  start(){
+    this.service.start().subscribe(data=>{
+      console.log(data);    
+    })
+  }
+  stop(){
+    this.service.stop().subscribe(data=>{
+      console.log(data);    
+    })
+  }
+  pause(){
+    this.service.pause().subscribe(data=>{
+      console.log(data);    
+    })
+  }
+  resume(){
+    this.service.resume().subscribe(data=>{
+      console.log(data);    
+    })
   }
 }
