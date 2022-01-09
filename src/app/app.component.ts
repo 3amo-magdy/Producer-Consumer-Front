@@ -258,7 +258,7 @@ addQ(ev:MouseEvent){
       return;
     }
     let m=this.getV(this.services,up.idM);
-    m.update(up.mfree);
+    m.update(up.mfree,up.mColor);
   }
   getV(arr:IViewable[], id:string ){
     for (var i=0;i<arr.length;i++) {
