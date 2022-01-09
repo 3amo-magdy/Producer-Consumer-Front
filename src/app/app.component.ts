@@ -24,7 +24,7 @@ export class AppComponent {
   name!: string;
   MODE!:mode;
   selected!:IViewable;
-
+  simulting!:boolean
   queues!:Q[];
   services!:M[];
   links!:link[];
@@ -35,6 +35,7 @@ export class AppComponent {
   constructor(s:ControllerService){
     this.service=s; 
     this.win=window;
+    this.simulting=false;
   }
 
   ngOnInit() {
@@ -295,21 +296,35 @@ addQ(ev:MouseEvent){
   start(){
     this.service.start().subscribe(data=>{
       console.log(data);    
+      this.simulting=true;
+      ( document.getElementById("Q") as HTMLInputElement).disabled=this.simulting;
+      ( document.getElementById("M") as HTMLInputElement).disabled=this.simulting;
+      ( document.getElementById("delete") as HTMLInputElement).disabled=this.simulting;
+      ( document.getElementById("start") as HTMLInputElement).disabled=this.simulting;
+      ( document.getElementById("resume") as HTMLInputElement).disabled=this.simulting;
+
     })
+    
   }
   stop(){
     this.service.stop().subscribe(data=>{
-      console.log(data);    
+      console.log(data);
+    
     })
   }
   pause(){
     this.service.pause().subscribe(data=>{
       console.log(data);    
+      ( document.getElementById("resume") as HTMLInputElement).disabled=false;
+      ( document.getElementById("pause") as HTMLInputElement).disabled=true;    
+    
     })
   }
   resume(){
     this.service.resume().subscribe(data=>{
-      console.log(data);    
+      console.log(data);
+      ( document.getElementById("pause") as HTMLInputElement).disabled=false;    
+
     })
   }
 }
