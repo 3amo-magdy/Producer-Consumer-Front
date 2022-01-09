@@ -224,14 +224,14 @@ export class AppComponent {
 addQ(ev:MouseEvent){
   this.service.addQ().subscribe((data:any)=>{
     console.log(data);
-    let q=new Q(data.id,ev.clientX-this.getOffset().left,ev.clientY-this.getOffset().top);
+    let q=new Q(data,ev.clientX-this.getOffset().left,ev.clientY-this.getOffset().top);
     this.queues.push(q);
     })
   }
   addM(ev:MouseEvent){
     this.service.addM().subscribe((data:any)=>{
       console.log(data);
-      var m=new M(data.id,ev.clientX-this.getOffset().left,ev.clientY-this.getOffset().top,100);
+      var m=new M(data,ev.clientX-this.getOffset().left,ev.clientY-this.getOffset().top,100);
       this.services.push(m);
     })
   }
@@ -258,7 +258,7 @@ addQ(ev:MouseEvent){
       return;
     }
     let m=this.getV(this.services,up.idM);
-    m.update(up.mfree);
+    m.update(up.mfree,up.mColor);
   }
   getV(arr:IViewable[], id:string ){
     for (var i=0;i<arr.length;i++) {

@@ -3,20 +3,23 @@ import { IViewable } from "./IViewable";
 export class M extends IViewable{
     free!:boolean;
     time!:number
-    constructor(id:string,x:number,y:number,time:number){
+    color!:string;
+    constructor(id:string,x:number,y:number,time:number,color?:string){
         super(id,x,y);
         this.time=time;
         this.free=true;
+        color=color
     }
-    override update(update: any): void {
+    override update(update: any,c?:any): void {
         this.free=update as boolean;
+        this.color=c as string;
     }
     getColor():string{
         if(this.free){
             return "rgb(184, 184, 184)";
         }
         else{
-            return "rgb(165, 34, 34)";
+            return this.color;
         }
     }
 }
