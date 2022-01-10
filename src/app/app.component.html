@@ -1,24 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-  
-  <head >
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>simulation</title>
-  </head>
-  
-  <body>
-  <div>
-    <button id="Q" (click)="setQ()">Q</button>
-    <button id="M" (click)="setM()">M</button>
-    <button id="delete" (click)="delete(selected)"> Del </button>
-    <input type="text"  (keyup.enter)="changeRate($event)">
-    <button id="start" (click)="start()">Start</button>
-    <button id="pause" (click)="pause()">pause</button>
-    <button id="resume" (click)="resume()">resume</button>
+<head>
+  <title>simulation</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <input type="text"  (keyup.enter)="inputProducts($event)">
+</head>
+  <body>
+  <div >
+    <button id="Q" class="btn"  (click)="setQ()">Q</button>
+    <button id="M" class="btn" (click)="setM()">M</button>
+    <button id="delete" (click)="delete(selected)" class="btn"><i class="fa fa-trash"></i> delete</button>
+
+    <!-- <input type="text"  (keyup.enter)="changeRate($event)"> -->
+    <button id="start" (click)="start()" class="btn"><i class="fa fa-play"></i> Start</button>
+    <button id="pause" (click)="pause()" class="btn"><i class="fa fa-pause"></i> pause</button>
+    <button id="Back"  class="btn"><i class="fa fa-backward"></i> backward</button>
+    <button id="FastBack"  class="btn"><i class="fa fa-fast-backward"></i> backward</button>
+
+    <!-- <button id="pause" (click)="pause()">pause</button> -->
+    <button id="resume" (click)="resume()" class="btn"><i class="fa fa-play-circle"></i> resume</button>
+    <input type="text" id="product" placeholder="Number of products" (keyup.enter)="inputProducts($event)">
+    
     <div>
   <svg #canvas class="canvas" [attr.width]="win.innerWidth-getOffset().left-16" [attr.height]="win.innerHeight-getOffset().top-16" (click)="resetSelection($event)" >
     <!-- <defs>
