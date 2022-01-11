@@ -7,6 +7,7 @@ import { Q } from './components/Q';
 import { ControllerService } from './controller.service';
 import { update } from './Response/update';
 import { WebSocketAPI } from './WebSocket/WebSocketAPI';
+import { timer } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -32,6 +33,7 @@ export class AppComponent {
   win:Window;
   txt="";
   selectedQ!:Q;
+  boolReplay!:boolean;
   constructor(s:ControllerService){
     this.service=s; 
     this.win=window;
@@ -254,12 +256,108 @@ addQ(ev:MouseEvent){
   
     var up=JSON.parse((u as string).replace("\n",""));
     let q=this.getV(this.queues,up.idQ);
-    q.update(up.qnumber);
-    if(up.idM==="input"){
+    q.update(up.qnumber,up.qTNumber);
+    if(up.idM==="before"||up.idM==='input'){
       return;
     }
     let m=this.getV(this.services,up.idM);
     m.update(up.mfree,up.mColor);
+  }
+  async replay(){
+    ( document.getElementById("resume") as HTMLInputElement).disabled=true;
+    this.service.replay().subscribe(history=>{
+      console.log(history)
+      let i=0;
+      let arr=history as any
+      console.log(arr)
+      this.turnOff()
+      while((arr[i]!.idM==="before")){
+        let q=this.getV(this.queues,arr[i].idQ);
+        q.update(arr[i].qnumber,arr[i].qTNumber)
+        i++;
+      }
+      let st=Date.now()
+      let m=this.getV(this.services,arr[i].idM);
+      m.update(arr[i].mfree,arr[i].mColor)
+      let q=this.getV(this.queues,arr[i].idQ);
+      q.update(arr[i].qnumber,arr[i].qTNumber)
+      i++;
+      // while(i<arr.length){
+        
+
+      //     // timer(t).subscribe(x => { 
+      //     //   (async () => { 
+      //     //     // Do something before delay
+      //     //     console.log('after delay')
+      //     //     this.delay(t);
+      //     //     let m=this.getV(this.services,arr[i].idM);
+      //     //     console.warn(m)
+      //     //     m.update(arr[i].mfree,arr[i].mColor)
+      //     //     let q=this.getV(this.queues,arr[i].idQ);
+      //     //     console.warn(q)
+      //     //     q.update(arr[i].qnumber,arr[i].qTNumber)
+      //     //     console.log(arr[i])
+      //     //     i++; 
+      //     //     // Do something after
+      // //     // })(); 
+      // //     this.delay(t).then(any=>{
+      // //       console.log('after delay')
+
+      // //  })
+      
+
+      //     // })
+      //     setTimeout(() => {
+      //       this.updateA(arr[i])
+      //     i++;
+      //     }, t);
+      //     t=t+arr[i].duration
+      //     // let m=this.getV(this.services,arr[i].idM);
+      //     //   console.warn(m)
+      //     //   m.update(arr[i].mfree,arr[i].mColor)
+      //     //   let q=this.getV(this.queues,arr[i].idQ);
+      //     //   console.warn(q)
+      //     //   q.update(arr[i].qnumber,arr[i].qTNumber)
+      //     //   console.log(arr[i])
+      //       i++; 
+            
+      // // }, t);
+
+      // }
+      let t=0
+      for (var j=i;  j< arr.length ; j++){
+          t+=arr[j].duration
+        setTimeout(this.updateA.bind(this), t, arr[j])
+        console.log(t)
+        if(j==arr.length-1){
+
+          setTimeout(()=>{          
+            ( document.getElementById("resume") as HTMLInputElement).disabled=false;
+          }, t)
+
+        }
+      }
+    })
+    
+  }
+  updateA(x:any){
+    let m=this.getV(this.services,x.idM);
+    console.warn(m)
+    m.update(x.mfree,x.mColor)
+    let q=this.getV(this.queues,x.idQ);
+    console.warn(q)
+    q.update(x.qnumber,x.qTNumber)
+    console.log(x)
+  }
+  private delay(ms: number)
+  {
+    console.log(ms)
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+  turnOff(){
+      for (var i=0;i<this.services.length;i++){
+        (this.services[i] as M).turnOff()
+    }
   }
   getV(arr:IViewable[], id:string ){
     for (var i=0;i<arr.length;i++) {
@@ -302,6 +400,8 @@ addQ(ev:MouseEvent){
       ( document.getElementById("delete") as HTMLInputElement).disabled=this.simulting;
       ( document.getElementById("start") as HTMLInputElement).disabled=this.simulting;
       ( document.getElementById("resume") as HTMLInputElement).disabled=this.simulting;
+      ( document.getElementById("FastBack") as HTMLInputElement).disabled=this.simulting;
+      ( document.getElementById("Back") as HTMLInputElement).disabled=this.simulting;
 
     })
     
@@ -316,7 +416,9 @@ addQ(ev:MouseEvent){
     this.service.pause().subscribe(data=>{
       console.log(data);    
       ( document.getElementById("resume") as HTMLInputElement).disabled=false;
-      ( document.getElementById("pause") as HTMLInputElement).disabled=true;    
+      ( document.getElementById("pause") as HTMLInputElement).disabled=true;
+      ( document.getElementById("FastBack") as HTMLInputElement).disabled=false;
+      ( document.getElementById("Back") as HTMLInputElement).disabled=false;    
     
     })
   }
@@ -324,7 +426,8 @@ addQ(ev:MouseEvent){
     this.service.resume().subscribe(data=>{
       console.log(data);
       ( document.getElementById("pause") as HTMLInputElement).disabled=false;    
-
+      ( document.getElementById("FastBack") as HTMLInputElement).disabled=true;
+      ( document.getElementById("Back") as HTMLInputElement).disabled=true;   
     })
   }
 }

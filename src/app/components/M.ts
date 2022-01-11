@@ -14,6 +14,9 @@ export class M extends IViewable{
         this.free=update as boolean;
         this.color=c as string;
     }
+    turnOff(){
+        this.free=true
+    }
     getColor():string{
         if(this.free){
             return "rgb(184, 184, 184)";

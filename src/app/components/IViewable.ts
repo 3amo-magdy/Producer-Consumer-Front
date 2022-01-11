@@ -7,7 +7,7 @@ export class IViewable{
         this.x=x;
         this.y=y;
     }
-    update(update:any,c?:string):void{
+    update(update:any,c?:string,qT?:number):void{
         throw new Error("Method was not implemented");
     }
     move(x:number,y:number){
