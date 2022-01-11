@@ -430,4 +430,18 @@ addQ(ev:MouseEvent){
       ( document.getElementById("Back") as HTMLInputElement).disabled=true;   
     })
   }
+
+  // // Need test
+  // replay() {
+  //   this.service.replay().subscribe(data => {
+  //     console.log(data);    
+  //     this.simulting = true;
+  //     (document.getElementById("Q") as HTMLInputElement).disabled = this.simulting;
+  //     (document.getElementById("M") as HTMLInputElement).disabled = this.simulting;
+  //     (document.getElementById("delete") as HTMLInputElement).disabled = this.simulting;
+  //     (document.getElementById("start") as HTMLInputElement).disabled = this.simulting;
+  //     (document.getElementById("resume") as HTMLInputElement).disabled = this.simulting;
+  //   })    
+  // }
+  
 }
