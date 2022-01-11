@@ -32,11 +32,23 @@ export class ControllerService {
   public replay():Observable<Object>{
     return this.http.get(this.url+"replay");
   }
+  public replayO():Observable<Object>{
+    return this.http.get(this.url+"replayO");
+  }
+  public new():Observable<Object>{
+    return this.http.get(this.url+"new");
+  }
   public setq0(idq:string):Observable<Object>{
     return this.http.get(this.url+"input"+"/"+idq+"/q0");
   }
   public setinput(rate:number):Observable<Object>{
     return this.http.get(this.url+"input"+"/"+rate);
+  }
+  pauseRate(){
+    return this.http.get(this.url+"stopRate");
+  }
+  conRate(){
+    return this.http.get(this.url+"conRate");
   }
   public inputProducts(amount:number,q:Q):Observable<Object>{
     return this.http.get(this.url+"input"+"/"+q.id+"/"+amount);

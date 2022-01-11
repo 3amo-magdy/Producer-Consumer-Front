@@ -34,6 +34,7 @@ export class AppComponent {
   txt="";
   selectedQ!:Q;
   boolReplay!:boolean;
+  stopB!:boolean;
   constructor(s:ControllerService){
     this.service=s; 
     this.win=window;
@@ -283,53 +284,13 @@ addQ(ev:MouseEvent){
       q.update(arr[i].qnumber,arr[i].qTNumber)
       i++;
       // while(i<arr.length){
-        
 
-      //     // timer(t).subscribe(x => { 
-      //     //   (async () => { 
-      //     //     // Do something before delay
-      //     //     console.log('after delay')
-      //     //     this.delay(t);
-      //     //     let m=this.getV(this.services,arr[i].idM);
-      //     //     console.warn(m)
-      //     //     m.update(arr[i].mfree,arr[i].mColor)
-      //     //     let q=this.getV(this.queues,arr[i].idQ);
-      //     //     console.warn(q)
-      //     //     q.update(arr[i].qnumber,arr[i].qTNumber)
-      //     //     console.log(arr[i])
-      //     //     i++; 
-      //     //     // Do something after
-      // //     // })(); 
-      // //     this.delay(t).then(any=>{
-      // //       console.log('after delay')
-
-      // //  })
-      
-
-      //     // })
-      //     setTimeout(() => {
-      //       this.updateA(arr[i])
-      //     i++;
-      //     }, t);
-      //     t=t+arr[i].duration
-      //     // let m=this.getV(this.services,arr[i].idM);
-      //     //   console.warn(m)
-      //     //   m.update(arr[i].mfree,arr[i].mColor)
-      //     //   let q=this.getV(this.queues,arr[i].idQ);
-      //     //   console.warn(q)
-      //     //   q.update(arr[i].qnumber,arr[i].qTNumber)
-      //     //   console.log(arr[i])
-      //       i++; 
-            
-      // // }, t);
-
-      // }
       let t=0
       for (var j=i;  j< arr.length ; j++){
           t+=arr[j].duration
         setTimeout(this.updateA.bind(this), t, arr[j])
         console.log(t)
-        if(j==arr.length-1){
+        if(j==arr.length-1&&this.simulting){
 
           setTimeout(()=>{          
             ( document.getElementById("resume") as HTMLInputElement).disabled=false;
@@ -392,8 +353,14 @@ addQ(ev:MouseEvent){
     }
   }
   start(){
+    
     this.service.start().subscribe(data=>{
-      console.log(data);    
+      console.log(data); 
+      if(data==="cant start"){
+        window.alert("cannot start please connect every machine");
+
+        return;
+      }   
       this.simulting=true;
       ( document.getElementById("Q") as HTMLInputElement).disabled=this.simulting;
       ( document.getElementById("M") as HTMLInputElement).disabled=this.simulting;
@@ -401,14 +368,35 @@ addQ(ev:MouseEvent){
       ( document.getElementById("start") as HTMLInputElement).disabled=this.simulting;
       ( document.getElementById("resume") as HTMLInputElement).disabled=this.simulting;
       ( document.getElementById("FastBack") as HTMLInputElement).disabled=this.simulting;
-      ( document.getElementById("Back") as HTMLInputElement).disabled=this.simulting;
-
+      // ( document.getElementById("Back") as HTMLInputElement).disabled=this.simulting;
     })
     
+  }
+  new(){
+    this.service.new().subscribe(x=>{
+      console.log(x)
+      this.queues=[];
+      this.services=[];
+      this.links=[];
+      this.simulting=false;
+      ( document.getElementById("Q") as HTMLInputElement).disabled=this.simulting;
+      ( document.getElementById("M") as HTMLInputElement).disabled=this.simulting;
+      ( document.getElementById("delete") as HTMLInputElement).disabled=this.simulting;
+      ( document.getElementById("start") as HTMLInputElement).disabled=this.simulting;
+      ( document.getElementById("resume") as HTMLInputElement).disabled=this.simulting;
+      ( document.getElementById("FastBack") as HTMLInputElement).disabled=this.simulting;
+    })
   }
   stop(){
     this.service.stop().subscribe(data=>{
       console.log(data);
+      this.simulting=false;
+      ( document.getElementById("Q") as HTMLInputElement).disabled=true;
+      ( document.getElementById("M") as HTMLInputElement).disabled=true;
+      ( document.getElementById("delete") as HTMLInputElement).disabled=true;
+      ( document.getElementById("start") as HTMLInputElement).disabled=true;
+      ( document.getElementById("resume") as HTMLInputElement).disabled=true;
+      ( document.getElementById("FastBack") as HTMLInputElement).disabled=false;
     
     })
   }
@@ -418,8 +406,18 @@ addQ(ev:MouseEvent){
       ( document.getElementById("resume") as HTMLInputElement).disabled=false;
       ( document.getElementById("pause") as HTMLInputElement).disabled=true;
       ( document.getElementById("FastBack") as HTMLInputElement).disabled=false;
-      ( document.getElementById("Back") as HTMLInputElement).disabled=false;    
+
     
+    })
+  }
+  pauseRate(){
+    this.service.pauseRate().subscribe(x=>{
+      console.log(x)
+    })
+  }
+  conRate(){
+    this.service.conRate().subscribe(x=>{
+      console.log(x)
     })
   }
   resume(){
@@ -427,10 +425,14 @@ addQ(ev:MouseEvent){
       console.log(data);
       ( document.getElementById("pause") as HTMLInputElement).disabled=false;    
       ( document.getElementById("FastBack") as HTMLInputElement).disabled=true;
-      ( document.getElementById("Back") as HTMLInputElement).disabled=true;   
+      // ( document.getElementById("Back") as HTMLInputElement).disabled=true;   
     })
   }
-
+  // replayO(){
+  //     this.service.replayO().subscribe(x=>{
+  //       console.log(x);
+  //     })
+  // }
   // // Need test
   // replay() {
   //   this.service.replay().subscribe(data => {

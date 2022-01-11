@@ -16,22 +16,21 @@
     <button id="M" class="btn" (click)="setM()">M</button>
     <button id="delete" (click)="delete(selected)" class="btn"><i class="fa fa-trash"></i> delete</button>
 
-    <!-- <input type="text"  (keyup.enter)="changeRate($event)"> -->
     <button id="start" (click)="start()" class="btn"><i class="fa fa-play"></i> Start</button>
+    <button id="pause"  class="btn" (click)="stop()"><i class="fa fa-stop-circle" style="color:red"></i>
+      End</button>
     <button id="pause" (click)="pause()" class="btn"><i class="fa fa-pause"></i> pause</button>
-    <button id="Back"   class="btn"><i class="fa fa-reply"></i> reply</button>
-    <button id="FastBack" (click)='replay()' class="btn"><i class="fa fa-fast-backward"></i> backward</button>
+    <!-- <button id="Back"  (click)='replayO()'  class="btn"><i class="fa fa-reply"></i> reply</button> -->
+    <button id="FastBack" (click)='replay()' class="btn"><i class="fa fa-reply"></i> replay</button>
 
-    <!-- <button id="pause" (click)="pause()">pause</button> -->
     <button id="resume" (click)="resume()" class="btn"><i class="fa fa-play-circle"></i> resume</button>
-
-
-    <!-- <button id="replay" (click)="replay()" class="btn"><i class='fa fa-reply'></i> Reply </button> -->
-
-
-
-    <input type="text" id="product" placeholder="Number of products" (keyup.enter)="inputProducts($event)">
     
+    <button id="new" (click)="new()" class="btn"><i class="fa fa-new"></i> new simulation</button>
+    <!-- <button id="replay" (click)="replay()" class="btn"><i class='fa fa-reply'></i> Reply </button> -->
+    <input type="text" id="product" placeholder="Number of products" (keyup.enter)="inputProducts($event)">
+    <input type="text"  (keyup.enter)="changeRate($event)" placeholder="rate of products">
+    <button id="start" (click)="conRate()" class="btn"><i class="fa fa-play"></i> Start rate</button>
+    <button id="pause" (click)="pauseRate()" class="btn"><i class="fa fa-pause"></i> pause rate</button>
     <div>
   <svg #canvas class="canvas" [attr.width]="win.innerWidth-getOffset().left-16" [attr.height]="win.innerHeight-getOffset().top-16" (click)="resetSelection($event)" >
     <!-- <defs>
